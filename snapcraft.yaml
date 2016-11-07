@@ -1,0 +1,26 @@
+name: gogs-nodb
+summary:  golang based git server and ui
+description: golang based git service and ui
+version: 0.1
+
+apps:
+  gogs:
+    command: ./launcher.sh
+    daemon: simple
+    plugs: [network, network-bind]
+ 
+parts:
+  gogs:
+    plugin: go
+    source: .
+    stage-packages: [git]
+    go-buildtags: [sqlite3, tidb, pam, cert]
+  conf:
+    plugin: dump 
+    source: ./snap
+  folders:
+    plugin: dump
+    source: .
+    after: [gogs]
+    snap: [LICENSE, README.md, README_ZH.md, templates, public, scripts]
+
